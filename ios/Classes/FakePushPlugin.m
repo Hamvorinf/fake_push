@@ -33,6 +33,7 @@ static NSString * const METHOD_BINDACCOUNT = @"bindAccount";
 static NSString * const METHOD_UNBINDACCOUNT = @"unbindAccount";
 static NSString * const METHOD_BINDTAGS = @"bindTags";
 static NSString * const METHOD_UNBINDTAGS = @"unbindTags";
+static NSString * const METHOD_GETTOKEN = @"getToken";
 
 static NSString * const METHOD_ONNOTIFICATIONSPERMISSION = @"onNotificationsPermission";
 static NSString * const METHOD_ONMESSAGE = @"onMessage";
@@ -79,7 +80,9 @@ static NSString * const SHAREDPREF_KEY_HAS_BEEN_DETERMINED = @"fake_push_has_bee
         [self bindTags:call result:result];
     } else if ([METHOD_UNBINDTAGS isEqualToString:call.method]) {
         [self unbindTags:call result:result];
-    } else {
+    } else if ([METHOD_GETTOKEN isEqualToString:call.method]) {
+             [self getToken:call result:result];
+         } else {
         result(FlutterMethodNotImplemented);
     }
 }
@@ -178,6 +181,10 @@ static NSString * const SHAREDPREF_KEY_HAS_BEEN_DETERMINED = @"fake_push_has_bee
     NSArray *tags = call.arguments[ARGUMENT_KEY_TAGS];
     [[XGPushTokenManager defaultTokenManager] unbindWithIdentifers:tags type:XGPushTokenBindTypeTag];
     result(nil);
+}
+
+- (NSString *)getToken:(FlutterMethodCall*)call result:(FlutterResult)result {
+    return [[XGPushTokenManager defaultTokenManager] deviceTokenString];
 }
 
 - (void)didLaunchRemoteNotification:(NSDictionary *)userInfo {

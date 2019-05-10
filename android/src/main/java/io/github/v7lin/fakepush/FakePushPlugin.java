@@ -56,6 +56,7 @@ public class FakePushPlugin implements MethodCallHandler, PluginRegistry.NewInte
     private static final String METHOD_UNBINDACCOUNT = "unbindAccount";
     private static final String METHOD_BINDTAGS = "bindTags";
     private static final String METHOD_UNBINDTAGS = "unbindTags";
+    private static final String METHOD_GETTOKEN = "getToken";
 
     private static final String METHOD_ONNOTIFICATIONSPERMISSION = "onNotificationsPermission";
     private static final String METHOD_ONMESSAGE = "onMessage";
@@ -115,6 +116,8 @@ public class FakePushPlugin implements MethodCallHandler, PluginRegistry.NewInte
             bindTags(call, result);
         } else if (METHOD_UNBINDTAGS.equals(call.method)) {
             unbindTags(call, result);
+        } else if (METHOD_GETTOKEN.equals(call.method)) {
+            getToken(call, result);
         } else {
             result.notImplemented();
         }
@@ -254,6 +257,10 @@ public class FakePushPlugin implements MethodCallHandler, PluginRegistry.NewInte
         XGPushManager.deleteTags(registrar.context(), "unbindTags:" + tags.hashCode(), new HashSet<>(tags));
 
         result.success(null);
+    }
+
+    private String getToken(MethodCall call, final Result result) {
+        return XGPushConfig.getToken(registrar.context());
     }
 
     private boolean handleNotificationClickedFromIntent(String method, Intent intent) {
