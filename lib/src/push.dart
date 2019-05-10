@@ -15,6 +15,7 @@ class Push {
   static const String _METHOD_UNBINDACCOUNT = 'unbindAccount';
   static const String _METHOD_BINDTAGS = 'bindTags';
   static const String _METHOD_UNBINDTAGS = 'unbindTags';
+  static const String _METHOD_GETTOKEN = 'getToken';
 
   static const String _METHOD_ONNOTIFICATIONSPERMISSION =
       'onNotificationsPermission';
@@ -26,6 +27,7 @@ class Push {
   static const String _ARGUMENT_KEY_ENABLEDEBUG = 'enableDebug';
   static const String _ARGUMENT_KEY_ACCOUNT = 'account';
   static const String _ARGUMENT_KEY_TAGS = 'tags';
+  static const String _ARGUMENT_KEY_TOKEN = 'token';
 
   static const MethodChannel _channel =
       MethodChannel('v7lin.github.io/fake_push');
@@ -175,5 +177,10 @@ class Push {
         _ARGUMENT_KEY_TAGS: tags,
       },
     );
+  }
+
+  /// 获取设备Token
+  Future<String> getToken() async {
+    return await _channel.invokeMethod(_METHOD_UNBINDTAGS);
   }
 }
